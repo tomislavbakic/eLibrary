@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="elibrary" Class="BibliotekaDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\elibrary.mdf;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="elibraryConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.autor" Member="autors">
+    <Type Name="autor">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ime" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="prezime" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="autor_knjiga" Member="knjigas" ThisKey="id" OtherKey="idAutora" Type="knjiga" />
+    </Type>
+  </Table>
+  <Table Name="dbo.knjiga" Member="knjigas">
+    <Type Name="knjiga">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="naslov" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="idAutora" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="godinaIzdanja" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="kolicina" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="knjiga_zaduzenje" Member="zaduzenjes" ThisKey="id" OtherKey="sifraKnjige" Type="zaduzenje" />
+      <Association Name="autor_knjiga" Member="autor" ThisKey="idAutora" OtherKey="id" Type="autor" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.korisnik" Member="korisniks">
+    <Type Name="korisnik">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ime" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="prezime" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="adresa" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="brojTelefona" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="username" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="uloga" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="korisnik_zaduzenje" Member="zaduzenjes" ThisKey="id" OtherKey="sifraKorisnika" Type="zaduzenje" />
+    </Type>
+  </Table>
+  <Table Name="dbo.zaduzenje" Member="zaduzenjes">
+    <Type Name="zaduzenje">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="sifraKnjige" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="sifraKorisnika" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="datumZaduzenja" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="knjiga_zaduzenje" Member="knjiga" ThisKey="sifraKnjige" OtherKey="id" Type="knjiga" IsForeignKey="true" />
+      <Association Name="korisnik_zaduzenje" Member="korisnik" ThisKey="sifraKorisnika" OtherKey="id" Type="korisnik" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
